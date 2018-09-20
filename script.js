@@ -12,7 +12,6 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-// 2. Button for adding Employees
 $("#add-train-btn").on("click", function(event) {
   event.preventDefault();
 
@@ -28,7 +27,6 @@ $("#add-train-btn").on("click", function(event) {
     frequency: trainFrequency,
   };
 
-  // Uploads employee data to the database
   database.ref().push(newTrain);
 
 
@@ -38,11 +36,11 @@ $("#add-train-btn").on("click", function(event) {
   $("#frequency").val("");
 });
 
-// 3. Create Firebase event for adding employee to the database and a row in the html when a user adds an entry
+
 database.ref().on("child_added", function(trains) {
   console.log(trains.val());
 
-  // Store everything into a variable.
+ 
   var trainName = trains.val().name;
   var trainDestination = trains.val().destination;
   var trainTime = trains.val().time;
@@ -52,17 +50,7 @@ database.ref().on("child_added", function(trains) {
 
    
    var now = moment().format("X");
-   // console.log(now)
-   // console.log(nextArrival)
-   // console.log(now)
-   // console.log(moment(now, "X").isBefore(nextArrival, "X"))
-   // while (moment(now, "X").isBefore(nextArrival, "X")) {
-     //   moment(nextArrival, "X" ).add(trainFrequency, "m");
-     //   console.log(nextArrival)
-     // }
-     
-     // moment(nextArrival, "X").format("hh:mm A")
-     
+
     var nextArrival = moment(trainPretty, "HH:mm").add(trainFrequency, "m").format("X");
     
 
@@ -83,11 +71,9 @@ database.ref().on("child_added", function(trains) {
       intvalue = Math.ceil(minutesAway);
       intvalue = Math.round(minutesAway);
 
-    console.log(now)
-    console.log(nextArrival)
-    // minutesAway = moment(minutesAway, "X").format("mm")
+ 
     nextArrival = moment(nextArrival, "X").format("hh:mm A")
-  // Create the new row
+
   var newRow = $("<tr>").append(
     $("<td>").text(trainName),
     $("<td>").text(trainDestination),
